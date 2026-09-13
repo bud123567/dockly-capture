@@ -28,8 +28,8 @@ Mirrored from the hosted preview at
 
 ## Local preview
 
-Pages reference assets with root-absolute paths (`/style.css`, `/assets/…`), so
-serve from the repository root rather than opening the files directly:
+Serve from the repository root rather than opening the files directly, so that
+directory URLs resolve to their `index.html`:
 
 ```sh
 python3 -m http.server 8000
@@ -39,10 +39,14 @@ Then open http://localhost:8000
 
 ## Deploying
 
-Because asset paths are root-absolute, this deploys as-is to any host serving
-the repo at a domain root (Netlify, Vercel, Cloudflare Pages, or GitHub Pages
-with a custom domain). Serving it from a GitHub Pages *project* subpath
-(`/dockly-capture/`) requires rewriting those paths to be relative first.
+Asset and page references are relative, so the site works both at a domain root
+and under a subpath. It is published with GitHub Pages from `main` at
+<https://bud123567.github.io/dockly-capture/>, and deploys unchanged to Netlify,
+Vercel, or Cloudflare Pages.
+
+`app.js` resolves the site root at runtime from its own script URL
+(`new URL('.', document.currentScript.src)`), so the generated app-card links
+and icon paths follow whatever base the site is served from.
 
 ## Notes
 
